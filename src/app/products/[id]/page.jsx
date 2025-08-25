@@ -3,7 +3,7 @@ import Breadcrumb from "@/app/components/Breadcrumb";
 import React from "react";
 
 export default async function ProductDetails({ params }) {
-  const res = await fetch(`http://localhost:3000/api/products/${params.id}`, {
+  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/products/${params.id}`, {
     cache: "no-store",
   });
   const product = await res.json();
@@ -17,7 +17,7 @@ export default async function ProductDetails({ params }) {
   }
 
   return (
-    <div className="min-h-screen bg-background text-text pt-10">
+    <div className="min-h-screen bg-background text-text pt-10 px-15">
       <Breadcrumb />
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
         {/* Image Section */}

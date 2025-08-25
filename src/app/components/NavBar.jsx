@@ -1,23 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
 import useTheme from "../hooks/useTheme";
+import AuthButton from "./AuthButton";
+import { useSession } from "next-auth/react";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
   // Replace with actual auth state (NextAuth, Context, etc.)
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { data: session, status } = useSession();
   const { theme, toggleTheme } = useTheme();
-
-  const handleAuth = () => {
-    if (isLoggedIn) {
-      // logout logic here
-      setIsLoggedIn(false);
-    } else {
-      // login logic here
-      setIsLoggedIn(true);
-    }
-  };
+  const pathname = usePathname();
 
   return (
     <div className="navbar px-15 sticky top-0 left-0 w-full backdrop-blur-md bg-[var(--background)]/80 shadow-md z-50 ">
@@ -47,11 +40,29 @@ export default function Navbar() {
             className="menu menu-sm dropdown-content bg-[var(--background)] rounded-xl z-10 mt-3 w-52 p-3 shadow-md border border-[var(--primary)]/20"
           >
             <li>
-              <Link href="/products">Products</Link>
+              <Link
+                href="/products"
+                className={`transition-colors ${
+                  pathname === "/products"
+                    ? "text-[var(--primary)] font-semibold"
+                    : "hover:text-[var(--primary)]"
+                }`}
+              >
+                Products
+              </Link>
             </li>
-            {isLoggedIn && (
+            {session && (
               <li>
-                <Link href="/dashboard/add-product">Add Product</Link>
+                <Link
+                  href="/dashboard/add-product"
+                  className={`transition-colors ${
+                    pathname === "/dashboard"
+                      ? "text-[var(--primary)] font-semibold"
+                      : "hover:text-[var(--primary)]"
+                  }`}
+                >
+                  Dashboard
+                </Link>
               </li>
             )}
           </ul>
@@ -72,18 +83,26 @@ export default function Navbar() {
           <li>
             <Link
               href="/products"
-              className="hover:text-[var(--primary)] transition-colors"
+              className={`transition-colors ${
+                pathname === "/products"
+                  ? "text-[var(--primary)] font-semibold"
+                  : "hover:text-[var(--primary)]"
+              }`}
             >
               Products
             </Link>
           </li>
-          {isLoggedIn && (
+          {session && (
             <li>
               <Link
-                href="/dashboard/add-product"
-                className="hover:text-[var(--primary)] transition-colors"
+                href="/dashboard"
+                className={`transition-colors ${
+                  pathname === "/products"
+                    ? "text-[var(--primary)] font-semibold"
+                    : "hover:text-[var(--primary)]"
+                }`}
               >
-                Add Product
+                Dashboard
               </Link>
             </li>
           )}
@@ -99,23 +118,12 @@ export default function Navbar() {
             value="dark"
             className="toggle theme-controller"
             onChange={toggleTheme}
-            checked={theme === 'dark'}
+            checked={theme === "dark"}
           />
         </label>
 
         {/* Auth Button */}
-        <Link href="/login">
-          <button
-            onClick={handleAuth}
-            className="px-4 py-2 rounded-xl font-medium shadow-sm transition-all duration-300"
-            style={{
-              background: "var(--primary)",
-              color: "var(--background)",
-            }}
-          >
-            {isLoggedIn ? "Logout" : "Login"}
-          </button>
-        </Link>
+        <AuthButton />
       </div>
     </div>
   );

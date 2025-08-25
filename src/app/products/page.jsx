@@ -4,11 +4,11 @@ import React from "react";
 import Breadcrumb from "../components/Breadcrumb";
 
 export default async function Page() {
-  const res = await fetch("http://localhost:3000/api/products", { cache: "no-store" });
+  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/products`, { cache: "no-store" });
   const products = await res.json();
 
   return (
-    <div className="min-h-screen bg-background text-text py-6">
+    <div className="min-h-screen bg-background text-text py-6 px-15">
       <Breadcrumb />
 
       <h1 className="text-3xl font-bold text-primary mb-6">Our Products</h1>

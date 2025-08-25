@@ -1,39 +1,43 @@
 "use client";
 
-import { signIn } from "next-auth/react";
+import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-export default function LoginPage() {
+export default function RegisterPage() {
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const handleCredLogin = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
-    const email = e.target.email.value;
-    const password = e.target.password.value;
+    setLoading(true);
 
-    const result = await signIn("credentials", {
-      redirect: false, // important to handle errors
-      email,
-      password,
-      callbackUrl: "/products",
+    const res = await fetch("/api/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: e.target.name.value,
+        email: e.target.email.value,
+        password: e.target.password.value,
+      }),
     });
 
-    if (result?.error) {
-      toast.error("Invalid email or password");
-    } else if (result?.ok) {
-      toast.success("Logged in successfully!");
-      router.push(result.url || "/products");
+    const data = await res.json();
+
+    if (res.ok) {
+      toast.success("Registered successfully! Redirecting to login...");
+      setTimeout(() => router.push("/login"), 1500);
+    } else {
+      toast.error(data.error || "Registration failed");
     }
+
+    setLoading(false);
   };
 
   return (
     <div className="flex gap-5 items-center justify-center min-h-screen px-15">
       <Toaster position="top-right" />
-      <div className="hidden lg:block">
-        <img src="/login.jpg" alt="" className="w-120 rounded-3xl" />
-      </div>
       <div
         className="p-8 rounded-2xl shadow-lg w-full max-w-md"
         style={{
@@ -46,10 +50,20 @@ export default function LoginPage() {
           className="text-3xl font-bold mb-6 text-center"
           style={{ color: "var(--primary)" }}
         >
-          Login
+          Register
         </h1>
-
-        <form onSubmit={handleCredLogin} className="flex flex-col gap-3">
+        <form onSubmit={handleRegister} className="flex flex-col gap-3">
+          <input
+            name="name"
+            placeholder="Name"
+            required
+            className="p-2 rounded-lg border"
+            style={{
+              borderColor: "var(--secondary)",
+              background: "var(--background)",
+              color: "var(--text)",
+            }}
+          />
           <input
             name="email"
             type="email"
@@ -76,24 +90,21 @@ export default function LoginPage() {
           />
           <button
             type="submit"
+            disabled={loading}
             className="py-2 px-4 rounded-lg font-medium transition hover:opacity-90"
-            style={{
-              background: "var(--accent)",
-              color: "white",
-            }}
+            style={{ background: "var(--accent)", color: "white" }}
           >
-            Sign in with Credentials
+            {loading ? "Registering..." : "Register"}
           </button>
         </form>
-
         <div className="text-center mt-4">
           <p className="text-sm text-gray-500">
-            Don't have an account?{" "}
+            Have an account?{" "}
             <Link
-              href="/register"
+              href="/login"
               className="text-[var(--primary)] font-medium hover:underline"
             >
-              Register
+              Login
             </Link>
           </p>
         </div>

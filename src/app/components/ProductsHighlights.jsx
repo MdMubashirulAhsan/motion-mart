@@ -43,7 +43,7 @@ export default function ProductsHighlights() {
 ]
 
   return (
-    <section className="py-16 bg-[var(--background)] text-[var(--text)] ">
+    <section className="py-16 bg-[var(--background)] text-[var(--text)] px-15">
       <div className="max-w-6xl mx-auto ">
         <h2 className="text-4xl font-bold mb-8 text-center">
           Our <span className="bg-gradient-to-r from-[var(--primary)] via-[var(--secondary)] to-[var(--accent)] text-transparent bg-clip-text">Highlights</span>

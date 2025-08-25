@@ -5,13 +5,13 @@ export default function Hero() {
   return (
     <div>
       <div
-        className="hero min-h-[80vh]  -px-15"
+        className="hero min-h-[80vh]  "
         style={{
           backgroundImage: "url(/hero.jpg)",
         }}
       >
         <div className="hero-overlay"></div>
-        <div className="hero-content text-neutral-content text-center">
+        <div className="hero-content text-text text-center">
           <div className="max-w-md">
             <h1 className="mb-5 text-5xl font-bold text-[var(--text)]">
               Hello{" "}
