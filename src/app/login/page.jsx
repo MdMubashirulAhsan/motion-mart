@@ -82,7 +82,7 @@ export default function LoginPage() {
               color: "white",
             }}
           >
-            Sign in with Credentials
+            Login 
           </button>
         </form>
 

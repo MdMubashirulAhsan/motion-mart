@@ -25,14 +25,15 @@ export async function POST(req) {
     const db = client.db(process.env.MONGODB_DB);
 
     const newProduct = {
-      name: body.name,
-      category: body.category,
-      price: Number(body.price),
-      description: body.description,
-      quantity: Number(body.quantity || 0),
-      img: body.img || null,
+      name: String(body.name).trim(),
+      category: String(body.category).trim(),
+      mrp: Number(body.mrp), // convert to number
+      purchasePrice: Number(body.purchasePrice), // convert to number
+      description: String(body.description || "").trim(),
+      quantity: Number(body.quantity) || 0, // fallback to 0
+      image: body.image ? String(body.image) : null, // allow null
       createdAt: new Date(),
-      userEmail: session.user.email, // track who added it
+      userEmail: String(body.userEmail),// track who added it
     };
 
     const result = await db.collection("products").insertOne(newProduct);

@@ -8,6 +8,7 @@ import Link from "next/link";
 
 export default function UserProfile() {
   const { data: session, status } = useSession();
+  const role = session?.user?.role;
 
   if (status === "loading") {
     return (
@@ -73,11 +74,13 @@ export default function UserProfile() {
             </div>
           </div>
         </div>
+        {role === "admin" && (
         <div className="mt-10 text-center">
           <Link href="/dashboard/add-product">
             <Button>Add Product</Button>
           </Link>
         </div>
+      )}
       </div>
     </div>
   );

@@ -3,6 +3,7 @@
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
 import Button from "./Button";
+import { LogIn, LogOut, UserPlus } from "lucide-react"; // example icons
 
 export default function AuthButton() {
   const { data: session, status } = useSession();
@@ -19,22 +20,37 @@ export default function AuthButton() {
   }
 
   if (!session) {
-    // User not logged in → show login button
+    // User not logged in → show login/register
     return (
       <div className="flex gap-3">
+        {/* Register */}
         <Link href="/register">
-          <Button className='btn-outline'>Register</Button>
+          <Button className="flex items-center gap-2 btn-outline">
+            <UserPlus className="h-5 w-5" />
+            {/* Text hidden on small screens */}
+            <span className="hidden sm:inline">Register</span>
+          </Button>
         </Link>
 
+        {/* Login */}
         <Link href="/login">
-          <Button>Login</Button>
+          <Button className="flex items-center gap-2">
+            <LogIn className="h-5 w-5" />
+            <span className="hidden sm:inline">Login</span>
+          </Button>
         </Link>
       </div>
     );
   }
 
-  // User logged in → show logout button
+  // User logged in → logout
   return (
-    <Button onClick={() => signOut({ callbackUrl: "/" })}>Log Out</Button>
+    <Button
+      className="flex items-center gap-2"
+      onClick={() => signOut({ callbackUrl: "/" })}
+    >
+      <LogOut className="h-5 w-5" />
+      <span className="hidden sm:inline">Log Out</span>
+    </Button>
   );
 }

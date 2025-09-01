@@ -35,6 +35,7 @@ export const authOptions = {
             id: user._id.toString(),
             name: user.name,
             email: user.email,
+            role: user.role
           };
         } catch (error) {
           console.error("Authorize error:", error);
@@ -48,8 +49,17 @@ export const authOptions = {
     signIn: "/login", // custom login page
   },
 
-  session: {
-    strategy: "jwt",
+callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.role = user.role; // 👈 attach role
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      session.user.role = token.role; // 👈 make role available in client
+      return session;
+    },
   },
 
   secret: process.env.NEXTAUTH_SECRET,

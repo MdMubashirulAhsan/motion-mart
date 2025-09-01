@@ -3,16 +3,18 @@
 import { useState, useRef } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { uploadToCloudinary } from "@/lib/cloudinary";
-import Breadcrumb from "@/app/components/Breadcrumb";
-import Image from "next/image";
+// import Breadcrumb from "@/app/components/Breadcrumb";
+// import Image from "next/image";
 
 export default function AddProductForm() {
   const [formData, setFormData] = useState({
     name: "",
     category: "",
-    price: "",
+    purchasePrice: "",
+    mrp: "",
     description: "",
     quantity: "",
+    
   });
 
   const [imageFile, setImageFile] = useState(null);
@@ -42,15 +44,15 @@ export default function AddProductForm() {
       let imgUrl = null;
       if (imageFile) imgUrl = await uploadToCloudinary(imageFile);
 
-      const res = await fetch(`${process.env.NEXTAUTH_URL}/api/products`, {
+      const res = await fetch('/api/products', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...formData, img: imgUrl }),
+        body: JSON.stringify({ ...formData, image: imgUrl }),
       });
 
       if (res.ok) {
         toast.success("Product added successfully!");
-        setFormData({ name: "", category: "", price: "", description: "", quantity: "" });
+        setFormData({ name: "", category: "", mrp: "", purchasePrice: "", description: "", quantity: "" });
         setImageFile(null);
         setPreview(null);
         if (fileInputRef.current) fileInputRef.current.value = "";
@@ -102,9 +104,18 @@ export default function AddProductForm() {
 
             <input
               type="number"
-              name="price"
-              placeholder="Price"
-              value={formData.price}
+              name="mrp"
+              placeholder="M.R.P."
+              value={formData.mrp}
+              onChange={handleChange}
+              className="w-full border border-[var(--primary)] p-3 rounded-md bg-[var(--background)] text-[var(--text)] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--secondary)]"
+              required
+            />
+            <input
+              type="number"
+              name="purchasePrice"
+              placeholder="Purchase Price"
+              value={formData.purchasePrice}
               onChange={handleChange}
               className="w-full border border-[var(--primary)] p-3 rounded-md bg-[var(--background)] text-[var(--text)] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--secondary)]"
               required

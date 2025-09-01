@@ -3,7 +3,7 @@ import React from "react";
 
 export default function Footer() {
   return (
-    <footer className="bg-[var(--background)] text-[var(--text)] border-t border-[var(--primary)]/20 px-15 py-10 ">
+    <footer className="bg-[var(--background)] text-[var(--text)] border-t border-[var(--primary)]/20 px-3 md:px-7 lg:px-15 py-10 ">
       <div className="container mx-auto flex flex-col sm:flex-row justify-between items-center gap-6">
         {/* Brand Info */}
         <div className="flex items-center gap-3">
@@ -20,7 +20,7 @@ export default function Footer() {
               className="text-2xl font-extrabold tracking-tight"
               style={{ color: "var(--primary)" }}
             >
-              Motion Mart
+              MOHAJON MART
             </span>{" "}
             <br />
             Reliable e-commerce since 2025

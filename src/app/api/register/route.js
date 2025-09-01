@@ -28,6 +28,7 @@ export async function POST(req) {
       email,
       password: hashedPassword,
       createdAt: new Date(),
+      role: "user"
     });
 
     return NextResponse.json({ success: true, id: result.insertedId });

@@ -5,6 +5,7 @@ import useTheme from "../hooks/useTheme";
 import AuthButton from "./AuthButton";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 
 export default function Navbar() {
   // Replace with actual auth state (NextAuth, Context, etc.)
@@ -13,11 +14,11 @@ export default function Navbar() {
   const pathname = usePathname();
 
   return (
-    <div className="navbar px-15 sticky top-0 left-0 w-full backdrop-blur-md bg-[var(--background)]/80 shadow-md z-50 ">
+    <div className="navbar px-3 md:px-7 lg:px-15 sticky top-0 left-0 w-full backdrop-blur-md bg-[var(--background)]/80 shadow-md z-50 ">
       {/* Left side */}
-      <div className="navbar-start">
+      <div className="navbar-start space-x-2">
         <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
+          <div tabIndex={0} role="button" className=" lg:hidden cursor-pointer">
             {/* Mobile menu icon */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -65,15 +66,26 @@ export default function Navbar() {
                 </Link>
               </li>
             )}
+            
           </ul>
         </div>
         {/* Brand */}
+        <Link href="/" className="block md:hidden">
+          <Image
+            src="/mm.png"
+            alt="Brand Logo"
+            width={100}
+            height={100}
+            className="w-[60] h-[60]"
+            priority
+          />
+        </Link>
         <Link
           href="/"
-          className="text-2xl font-extrabold tracking-tight"
+          className="text-2xl font-extrabold tracking-tight hidden md:block"
           style={{ color: "var(--primary)" }}
         >
-          Motion Mart
+          MOHAJON MART
         </Link>
       </div>
 
@@ -105,7 +117,9 @@ export default function Navbar() {
                 Dashboard
               </Link>
             </li>
+
           )}
+          
         </ul>
       </div>
 

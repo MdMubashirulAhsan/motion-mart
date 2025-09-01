@@ -23,7 +23,7 @@ export default async function ProductDetails({ params }) {
         {/* Image Section */}
         <div className="w-full flex justify-center">
           <img
-            src={product.img}
+            src={product.image}
             alt={product.name}
             className="rounded-2xl shadow-lg border border-primary max-h-[500px] object-cover"
           />
@@ -36,7 +36,7 @@ export default async function ProductDetails({ params }) {
             Category: {product.category}
           </p>
           <p className="text-xl font-semibold">
-            Price: <span className="text-accent">${product.price}</span>
+            Price: <span className="text-accent">${product.mrp}</span>
           </p>
           <p className="text-lg font-medium">
             Available Qty: {product.quantity}

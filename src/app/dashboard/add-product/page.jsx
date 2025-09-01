@@ -1,12 +1,13 @@
 // app/dashboard/add-product/page.jsx
 import { redirect } from "next/navigation";
-import { requireAuth } from "@/lib/auth";
+// import { requireAuth } from "@/lib/auth";
 import AddProductForm from "../components/AddProductForm";
 import Breadcrumb from "@/app/components/Breadcrumb";
 import Image from "next/image";
+import { getServerSession } from "next-auth";
 
 export default async function AddProductPage() {
-  const session = await requireAuth();
+  const session = await getServerSession();
 
   if (!session) {
     redirect("/login"); // Redirect unauthenticated users
